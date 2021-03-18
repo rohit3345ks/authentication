@@ -11,6 +11,7 @@ class Register extends React.Component {
                 <label>
                     First Name: 
                     <input name="firstName" type="text" value={this.props.value} onChange={this.props.handleChange} /> 
+                    <span>{this.props.errorMessages['firstName']}</span>
                 </label> <br />
                 <label>
                     Last Name: 
