@@ -2,6 +2,15 @@ import React from 'react';
 import Register from './register';
 import Login from './login';
 var userId=0;
+var errorString={
+  firstName: "Between 5 to 20 characters.",
+  lastName: "Between 5 to 20 characters.",
+  email: "Invalid Email Address",
+  pw: "Min. 8 chacters long including atleast one uppercase, lowercase, number and Symbol.",
+  confirmPw: "Passwords Mismatch.",
+  DOB: "Please enter a Valid Date.",
+  contactNumber: "Must be a number and start with +91"
+}
 class Parent extends React.Component {
     constructor(props) {
         super(props);
@@ -32,6 +41,7 @@ class Parent extends React.Component {
         this.handleFormForSignUp=this.handleFormForSignUp.bind(this);
         this.handleLogIn=this.handleLogIn.bind(this);
         this.validateForm=this.validateForm.bind(this);
+        this.validateIndividialInputs=this.validateIndividialInputs.bind(this);
         this.setErrorMessages=this.setErrorMessages.bind(this);
       } 
       
@@ -43,26 +53,69 @@ class Parent extends React.Component {
           }));
       }
       
-      validateForm() {
-          var firstNameRegex=/^[A-Za-z ]{5,20}$/;
-          var lastNameRegex=/^[A-Za-z]{5,25}$/;
-          let tempErrorMessages=JSON.parse(JSON.stringify(this.state.errorMessages));
-          
-          
-          
-          if(!firstNameRegex.test(this.state.firstName) || this.state.firstName.trim().length<=0) {
-            tempErrorMessages.firstName="First Name must be between 5 to 20 Characters.";
-            this.setErrorMessages(tempErrorMessages);
+
+
+      validateIndividialInputs(tempErrorMessages,Regex,inputField) {
+        if(!Regex.test(this.state[inputField]) || this.state[inputField].trim().length<=0) {
+          tempErrorMessages[inputField]=errorString[inputField];
+          this.setErrorMessages(tempErrorMessages);
+        }
+        else {
+          tempErrorMessages[inputField]="";
+          this.setErrorMessages(tempErrorMessages);
+        }
+      }
+
+
+
+
+
+      validateForm(inputField) {
+        let tempErrorMessages=JSON.parse(JSON.stringify(this.state.errorMessages));  
+        switch(inputField) {
+            case "firstName":
+              var firstNameRegex=/^[A-Za-z ]{5,20}$/g;
+              this.validateIndividialInputs(tempErrorMessages,firstNameRegex,inputField);
+            break;
+            case "lastName":
+              var lastNameRegex=/^[A-Za-z]{5,25}$/g;
+              this.validateIndividialInputs(tempErrorMessages,lastNameRegex,inputField);
+            break;
+            case "email": 
+              var emailRegex=/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g;
+              this.validateIndividialInputs(tempErrorMessages,emailRegex,inputField);
+            break;
+            case "pw":
+              var pwRegex=/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/g;
+              this.validateIndividialInputs(tempErrorMessages,pwRegex,inputField);
+            break;
+            case "confirmPw":
+              if(this.state.pw!==this.state.confirmPw) {
+                tempErrorMessages[inputField]="Passwords Mismatch.";
+                console.log(tempErrorMessages);
+                this.setState(()=>({
+                  errorMessages: tempErrorMessages
+                }))
+              } 
+              else {
+                tempErrorMessages[inputField]="";
+                this.setState(()=>({
+                  errorMessages: tempErrorMessages
+                }));
+              }
+            break;
+            default:
+              console.log("Form is working Fine.");
+            break;
           }
-          else {
-            tempErrorMessages.firstName="";
-            this.setErrorMessages(tempErrorMessages);
-          }
           
-          if(!lastNameRegex.test(this.state.lastName) || this.state.firstName.trim().length<=0) {
-            tempErrorMessages.lastName="Last Name must be between 5 to 20 Characters.";
-            this.setErrorMessages(tempErrorMessages);
-          }
+          
+          
+          
+          
+          
+          
+          
         
       }
 
@@ -70,7 +123,7 @@ class Parent extends React.Component {
             this.setState({
                 [event.target.name]: event.target.value
             },()=>{
-              this.validateForm();
+              this.validateForm(event.target.name);
             })
         }
     

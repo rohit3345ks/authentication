@@ -16,10 +16,12 @@ class Register extends React.Component {
                 <label>
                     Last Name: 
                     <input name="lastName" type="text" value={this.props.value} onChange={this.props.handleChange} /> 
+                    <span>{this.props.errorMessages['lastName']}</span>
                 </label> <br />
                 <label>
                     Email: 
                     <input name="email" type="email" value={this.props.value} onChange={this.props.handleChange} /> 
+                    <span>{this.props.errorMessages['email']}</span>
                 </label>
                 <br />
                 <label>
