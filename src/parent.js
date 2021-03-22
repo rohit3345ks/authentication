@@ -4,13 +4,13 @@ import Login from './login';
 import './parent.css'
 var userId=0;
 var errorString={
-  firstName: "Between 3 to 20 characters.",
-  lastName: "Between 3 to 20 characters.",
+  firstName: "Between 3 to 20 characters",
+  lastName: "Between 3 to 25 characters",
   email: "Invalid Email Address",
-  pw: "Min. 8 chacters long including atleast one uppercase, lowercase, number and Symbol.",
-  confirmPw: "Passwords Mismatch.",
-  DOB: "Please enter a Valid Date.",
-  contactNumber: "Must contain 10 numbers."
+  pw: "Weak Password",
+  confirmPw: "Passwords Mismatch",
+  DOB: "Please enter a Valid Date",
+  contactNumber: "Must contain 10 numbers"
 }
 var initialErrors= {
     firstName: "",
@@ -56,6 +56,7 @@ class Parent extends React.Component {
       } 
       
       setErrorMessages(errorMessages) {
+          console.log("Setting Error Message");
           this.setState(()=>({
             errorMessages
           }));
@@ -64,6 +65,7 @@ class Parent extends React.Component {
 
 
       validateIndividialInputs(tempErrorMessages,Regex,inputField) {
+        console.log("Validate Individual Inputs");
         if(!Regex.test(this.state[inputField]) || this.state[inputField].trim().length<=0) {
           tempErrorMessages[inputField]=errorString[inputField];
           this.setErrorMessages(tempErrorMessages);
@@ -85,20 +87,81 @@ class Parent extends React.Component {
         let isFormValidated=false;
         switch(inputField) {
             case "firstName":
-              var firstNameRegex=/^[A-Za-z ]{3,20}$/g;
+              var firstNameRegex=/^[A-Za-z]{3,20}$/g;
+              if(this.state[inputField].length===0) {
+                errorString[inputField]="First name cannot be empty"
+              }
+              else if(this.state[inputField].includes(" ")) {
+                errorString[inputField]="Space is not allowed";
+              }
+              else if((/(?=.*\d)/g.test(this.state[inputField]))) {
+                errorString[inputField]="Digits are not allowed";
+              }
+              else {
+                errorString[inputField]="Between 3 to 20 characters"
+              }
               isFormValidated=this.validateIndividialInputs(tempErrorMessages,firstNameRegex,inputField);
             break;
             case "lastName":
               var lastNameRegex=/^[A-Za-z]{3,25}$/g;
+              if(this.state[inputField].length===0) {
+                errorString[inputField]="Last name cannot be empty";
+              }
+              else if(this.state[inputField].includes(" ")) {
+                errorString[inputField]="Space is not allowed";
+              }
+              else if((/(?=.*\d)/g.test(this.state[inputField]))) {
+                errorString[inputField]="Digits are not allowed";
+              }
+              else { 
+                errorString[inputField]="Between 3 to 25 Characters";
+              }
               isFormValidated=this.validateIndividialInputs(tempErrorMessages,lastNameRegex,inputField);
             break;
-            case "email": 
+            case "email":
               var emailRegex=/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g;
+              console.log("Difference: ",this.state[inputField].length-this.state[inputField].lastIndexOf('.'));
+              if(this.state[inputField].length===0) {
+                errorString[inputField]="Email Field Cannot be empty";
+              }
+              else if(!this.state[inputField].includes("@")) {
+                errorString[inputField]="Please include '@' in the email address";
+              }
+              else if(this.state[inputField].startsWith("@") || this.state[inputField].startsWith(".") || this.state[inputField].endsWith("@") || this.state[inputField].endsWith(".")) {
+                errorString[inputField]="'@' or '.' not allowed at beginning or end";
+              }
+              else if(this.state[inputField].split('.')[length-1].length<2) {
+                console.log("Please Enter a valid domain");
+                errorString[inputField]="Please enter a valid domain";
+                console.log(errorString);
+              }
+              else if([...(this.state[inputField].match(/@/g)|| [])].length>1) {
+                errorString[inputField]="Only one '@' allowed";
+              }
+              
+              
+              else {
+                errorString[inputField]="Invalid Email Address"
+              }
               isFormValidated=this.validateIndividialInputs(tempErrorMessages,emailRegex,inputField);
             break;
             case "pw":
               var pwRegex=/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/g;
-              // var pwRegex=/[A-Za-z0-9@#$%^&*!]{8,}/g;
+              if(!(/(?=.*\d)/g.test(this.state[inputField]))) {
+                errorString[inputField]="Please include atleast one digit";
+              }
+              else if(!(/(?=.*[a-z])/g.test(this.state[inputField]))) {
+                errorString[inputField]="Please include atleast one lowercase letter";
+              }
+              else if(!(/(?=.*[a-z])/g.test(this.state[inputField]))) {
+                errorString[inputField]="Please include atleast one uppercase letter";
+              }
+              else if(!(/(?=.*[!@#£$%^&*()-_+=`~])/g.test(this.state[inputField]))) {
+                errorString[inputField]="Pleae include atleast one Password";
+              }
+              else {
+                errorString[inputField]="Weak Password";
+              }
               isFormValidated=this.validateIndividialInputs(tempErrorMessages,pwRegex,inputField);
             break;
             case "confirmPw":
@@ -135,7 +198,8 @@ class Parent extends React.Component {
               }
             break;
             case "contactNumber":
-               let contactNumberRegex=/(((\+){1}91){1})?[98765]{1}[0-9]{9}/g;
+               let contactNumberRegex=/((((\+){1}91){1})?[98765]{1}[0-9]{9})/g;
+
                isFormValidated=this.validateIndividialInputs(tempErrorMessages,contactNumberRegex,inputField);
             break;
             default:
@@ -149,10 +213,14 @@ class Parent extends React.Component {
       }
 
       handleChange(event) {
+
             this.setState({
                 [event.target.name]: event.target.value
             },()=>{
-              this.validateForm(event.target.name);
+              console.log(this.state[event.target.name]);
+              if(!this.state.isLoggingIn) {
+                this.validateForm(event.target.name);
+              }
             })
         }
     
