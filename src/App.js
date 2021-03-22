@@ -23,10 +23,6 @@ class App extends React.Component {
       let currentUserIndex=Number.MIN_VALUE;
       let isAuthenticated=existing_users_data.some((user,index)=>{
         currentUserIndex=index;
-        console.log("user.email: ",user.email);
-        console.log("event.target.email.value: ",event.target.email.value);
-        console.log("user.pw: ",user.pw);
-        console.log("event.target.pw.value: ",event.target.pw.value);
         return user.email=== event.target.email.value && user.pw === event.target.pw.value
       });
       console.log("isAuthenticated: ",isAuthenticated);
@@ -36,6 +32,9 @@ class App extends React.Component {
         this.setState({
           isLoggedIn: true
         })
+      }
+      else {
+        alert("Sorry! Invalid Email or Password. You cannot log in. :(");
       }
   }
 

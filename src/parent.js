@@ -55,6 +55,9 @@ class Parent extends React.Component {
         this.setErrorMessages=this.setErrorMessages.bind(this);
       } 
       
+      
+
+
       setErrorMessages(errorMessages) {
           console.log("Setting Error Message");
           this.setState(()=>({
@@ -66,15 +69,13 @@ class Parent extends React.Component {
 
       validateIndividialInputs(tempErrorMessages,Regex,inputField) {
         console.log("Validate Individual Inputs");
-        if(!Regex.test(this.state[inputField]) || this.state[inputField].trim().length<=0) {
-          tempErrorMessages[inputField]=errorString[inputField];
+        if(!Regex.test(this.state[inputField])) {
           this.setErrorMessages(tempErrorMessages);
-          return false;
         }
         else {
+          console.log("Else of Individual Inputs is running");
           tempErrorMessages[inputField]="";
           this.setErrorMessages(tempErrorMessages);
-          return true;
         }
       }
 
@@ -84,85 +85,92 @@ class Parent extends React.Component {
 
       validateForm(inputField) {
         let tempErrorMessages=JSON.parse(JSON.stringify(this.state.errorMessages));  
-        let isFormValidated=false;
         switch(inputField) {
             case "firstName":
               var firstNameRegex=/^[A-Za-z]{3,20}$/g;
               if(this.state[inputField].length===0) {
-                errorString[inputField]="First name cannot be empty"
+                tempErrorMessages[inputField]="First name cannot be empty";
               }
               else if(this.state[inputField].includes(" ")) {
-                errorString[inputField]="Space is not allowed";
+                tempErrorMessages[inputField]="Space is not allowed";
               }
               else if((/(?=.*\d)/g.test(this.state[inputField]))) {
-                errorString[inputField]="Digits are not allowed";
+                tempErrorMessages[inputField]="Digits are not allowed";
+                
               }
               else {
-                errorString[inputField]="Between 3 to 20 characters"
+                tempErrorMessages[inputField]="Between 3 to 20 characters"
               }
-              isFormValidated=this.validateIndividialInputs(tempErrorMessages,firstNameRegex,inputField);
+              this.validateIndividialInputs(tempErrorMessages,firstNameRegex,inputField);
             break;
             case "lastName":
               var lastNameRegex=/^[A-Za-z]{3,25}$/g;
               if(this.state[inputField].length===0) {
-                errorString[inputField]="Last name cannot be empty";
+                tempErrorMessages[inputField]="Last name cannot be empty";
               }
               else if(this.state[inputField].includes(" ")) {
-                errorString[inputField]="Space is not allowed";
+                tempErrorMessages[inputField]="Space is not allowed";
               }
               else if((/(?=.*\d)/g.test(this.state[inputField]))) {
-                errorString[inputField]="Digits are not allowed";
+                tempErrorMessages[inputField]="Digits are not allowed";
               }
               else { 
-                errorString[inputField]="Between 3 to 25 Characters";
+                tempErrorMessages[inputField]="Between 3 to 25 characters";
               }
-              isFormValidated=this.validateIndividialInputs(tempErrorMessages,lastNameRegex,inputField);
+              this.validateIndividialInputs(tempErrorMessages,lastNameRegex,inputField);
             break;
             case "email":
-              var emailRegex=/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/g;
-              console.log("Difference: ",this.state[inputField].length-this.state[inputField].lastIndexOf('.'));
+              var emailRegex=/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
               if(this.state[inputField].length===0) {
-                errorString[inputField]="Email Field Cannot be empty";
+                tempErrorMessages[inputField]="Email Field Cannot be empty";
               }
               else if(!this.state[inputField].includes("@")) {
-                errorString[inputField]="Please include '@' in the email address";
+                tempErrorMessages[inputField]="Please include '@' in the email";
+              }
+              else if(!this.state[inputField].includes(".")) {
+                tempErrorMessages[inputField]="Please include '.' in the email";
+              }
+              else if(this.state[inputField].includes("..")) {
+                tempErrorMessages[inputField]="Consecutive dots are not allowed";
               }
               else if(this.state[inputField].startsWith("@") || this.state[inputField].startsWith(".") || this.state[inputField].endsWith("@") || this.state[inputField].endsWith(".")) {
-                errorString[inputField]="'@' or '.' not allowed at beginning or end";
+                tempErrorMessages[inputField]="'@' or '.' not allowed at beginning or end";
               }
-              else if(this.state[inputField].split('.')[length-1].length<2) {
-                console.log("Please Enter a valid domain");
-                errorString[inputField]="Please enter a valid domain";
-                console.log(errorString);
+              else if(this.state[inputField].split('.')[this.state[inputField].split('.').length-1].length<2) {
+                tempErrorMessages[inputField]="Please enter a valid domain";
               }
               else if([...(this.state[inputField].match(/@/g)|| [])].length>1) {
-                errorString[inputField]="Only one '@' allowed";
+                tempErrorMessages[inputField]="Only one '@' allowed";
               }
-              
-              
               else {
-                errorString[inputField]="Invalid Email Address"
+                tempErrorMessages[inputField]="Invalid Email Address"
               }
-              isFormValidated=this.validateIndividialInputs(tempErrorMessages,emailRegex,inputField);
+              this.validateIndividialInputs(tempErrorMessages,emailRegex,inputField);
             break;
             case "pw":
               var pwRegex=/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/g;
-              if(!(/(?=.*\d)/g.test(this.state[inputField]))) {
-                errorString[inputField]="Please include atleast one digit";
+              if(this.state[inputField].length===0) {
+                tempErrorMessages[inputField]="Password cannot be empty";
+              }
+              else if(!(/(?=.*\d)/g.test(this.state[inputField]))) {
+                tempErrorMessages[inputField]="Please include atleast one digit";
               }
               else if(!(/(?=.*[a-z])/g.test(this.state[inputField]))) {
-                errorString[inputField]="Please include atleast one lowercase letter";
+                tempErrorMessages[inputField]="Please include atleast one lowercase letter";
               }
-              else if(!(/(?=.*[a-z])/g.test(this.state[inputField]))) {
-                errorString[inputField]="Please include atleast one uppercase letter";
+              else if(!(/(?=.*[A-Z])/g.test(this.state[inputField]))) {
+                tempErrorMessages[inputField]="Please include atleast one uppercase letter";
               }
-              else if(!(/(?=.*[!@#£$%^&*()-_+=`~])/g.test(this.state[inputField]))) {
-                errorString[inputField]="Pleae include atleast one Password";
+              else if(!(/(?=.*[!@#$%^&*])/g.test(this.state[inputField]))) {
+                tempErrorMessages[inputField]="Pleae include atleast one special Character/Symbol";
+              }
+              else if(this.state[inputField].length<8) {
+                tempErrorMessages[inputField]="Minimum length 8 characters"
               }
               else {
-                errorString[inputField]="Weak Password";
+                tempErrorMessages[inputField]="Please use a stronger password";
               }
-              isFormValidated=this.validateIndividialInputs(tempErrorMessages,pwRegex,inputField);
+              this.validateIndividialInputs(tempErrorMessages,pwRegex,inputField);
             break;
             case "confirmPw":
               if(this.state.pw!==this.state.confirmPw) {
@@ -170,7 +178,6 @@ class Parent extends React.Component {
                 this.setState(()=>({
                   errorMessages: tempErrorMessages
                 }))
-                isFormValidated=false;
               } 
               else {
                 tempErrorMessages[inputField]="";
@@ -188,7 +195,7 @@ class Parent extends React.Component {
                 this.setState(()=>({
                   errorMessages: tempErrorMessages
                 }));
-                isFormValidated=false;
+                
               } 
               else {
                 tempErrorMessages[inputField]="";
@@ -198,22 +205,57 @@ class Parent extends React.Component {
               }
             break;
             case "contactNumber":
-               let contactNumberRegex=/((((\+){1}91){1})?[98765]{1}[0-9]{9})/g;
+               var isContactNumberValid;
+               console.log("Contact Number type: ",typeof this.state[inputField],", Length: ",this.state[inputField].length);
+               if(this.state[inputField].length===0) {
+                 tempErrorMessages[inputField]="Contact Number cannot be empty";
+                 isContactNumberValid=false;
+               }
+               else if(this.state[inputField].length!==10) {
+                 tempErrorMessages[inputField]="Contact number must be of 10 digits";
+                 isContactNumberValid=false;
+               }
+               else if(/([0-9])\\1*/.test(this.state[inputField])) {
+                 tempErrorMessages[inputField]="All digits should not be same";
+                 isContactNumberValid=false;
+               }
+               else {
+                 isContactNumberValid=true;
+                 tempErrorMessages[inputField]="";
+               }
+               if(!isContactNumberValid) {
+               this.setState(()=>({
+                errorMessages: tempErrorMessages
+              }))
+              }
+              else {
+                tempErrorMessages[inputField]="";
+                this.setState(()=>({
+                  errorMessages: tempErrorMessages
+                }));
+              }
 
-               isFormValidated=this.validateIndividialInputs(tempErrorMessages,contactNumberRegex,inputField);
+              
+
+               
             break;
             default:
             break;
           }
-          this.setState(()=>({
-            isValidated: isFormValidated
-          }))
-          
-          
+          if(   this.state.errorMessages.firstName===""
+             && this.state.errorMessages.lastName===""
+             && this.state.errorMessages.email===""
+             && this.state.errorMessages.pw===""
+             && this.state.errorMessages.confirmPw===""
+             && this.state.errorMessages.DOB===""
+             && this.state.errorMessages.contactNumber==="") {
+               this.setState(()=>({
+                 isValidated: true
+               }));
+             }
       }
 
       handleChange(event) {
-
             this.setState({
                 [event.target.name]: event.target.value
             },()=>{
@@ -253,7 +295,6 @@ class Parent extends React.Component {
             users: tempusers
           }),()=>{
             localStorage.setItem("users",JSON.stringify(this.state.users));
-            console.log("Sign Up Data from Local Storage: ",JSON.parse(localStorage.users));
             alert("Signed Up successfully. You can now Log in.");
             this.setState(()=>({
               isLoggingIn: true

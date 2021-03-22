@@ -37,13 +37,13 @@ class Register extends React.Component {
                 <span className="error">{this.props.errorMessages['confirmPw']}</span>
                 <label className="inputContainer">
                     <span className="label">Date of Birth:  </span>
-                    <input required autoComplete="off" placeholder="" name="DOB" type="date" value={this.props.value} onChange={this.props.handleChange} /> 
+                    <input required autoComplete="off" name="DOB" type="date" min="2013-10-01" max="2013-10-20" value={this.props.value} onChange={this.props.handleChange} /> 
                     
                 </label>
                 <span className="error">{this.props.errorMessages['DOB']}</span>
                 <label className="inputContainer">
                     <span className="label">Contact Number:  </span>
-                    <input required autoComplete="off" placeholder="Phone Number" name="contactNumber" type="tel" value={this.props.value} onChange={this.props.handleChange} /> 
+                    <input required autoComplete="off" placeholder="Phone Number" name="contactNumber" type="number" value={this.props.value} onChange={this.props.handleChange} /> 
                     
                 </label>
                 <span className="error">{this.props.errorMessages['contactNumber']}</span>
