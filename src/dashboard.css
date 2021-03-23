@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.chatListWrapper {
+    width: 25%;
+    height: 100vh;
+    background-color: lightgray;
+}
+.chatWrapper {
+    width: 75%;
+    height: 100vh;
+    background-image: url('');
+}

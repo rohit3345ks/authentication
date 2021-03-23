@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .application {
   width: 100vw;
   height: 100vh;
@@ -5,4 +10,108 @@
   justify-content: center;
   align-items: center;
   background-image:linear-gradient(60deg,rgb(119,221,119),rgb(102,178,178));
+}
+.application.dashboardWrapper {
+  width: 100vw;
+  height: 100vh;
+  background: none;
+  display: block;
+}
+.home {
+  height: 30vh;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.formContainer {
+  width: 70vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
+.formBox{
+  margin: 20px;
+  width: 50%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  
+}
+
+.loginForm {
+  height: 33%;
+  width: 45%;
+}
+.inputContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.label {
+  width: 50%;
+}
+
+.inputContainer input {
+  /* border: 2px solid rgba(12, 63, 231, 0.651); */
+  border: 2px solid white;
+  background-color: rgba(226, 220, 220, 0.342);
+  outline: none;
+  width: 45%;
+  height: 30px;
+  color: rgb(58, 57, 57);
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.inputContainer input:focus {
+  border: 2px solid black;
+  background-color: white;
+}
+
+.error {
+  width: 45%;
+  color: rgb(175, 12, 20);
+  font-size: 12px;
+  text-align: center;
+  align-self: flex-end;
+}
+
+.btn {
+  background-color: #ff6779;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  margin: 5px;
+}
+
+.signUp,.login {
+  padding: 10px 5px;
+  border: none;
+  margin-top: 5px;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+.btn-group {
+  display: flex;
+  width: 60%;
+  justify-content: space-around;
+  align-items: center;
 }
