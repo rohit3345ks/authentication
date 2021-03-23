@@ -1,8 +1,7 @@
 import React from 'react';
 import Register from './register';
 import Login from './login';
-import './parent.css'
-var userId=0;
+import './parent.css';
 var errorString={
   firstName: "Between 3 to 20 characters",
   lastName: "Between 3 to 25 characters",
@@ -21,11 +20,22 @@ var initialErrors= {
     DOB: "",
     contactNumber: ""
 }
+var today=new Date();
+var minDate;
+var maxDate;
+if(today.getMonth()<10) {
+  minDate=today.getFullYear()-50+"-0"+(today.getMonth()+1)+"-"+today.getDate();
+  maxDate=today.getFullYear()-18+"-0"+(today.getMonth()+1)+"-"+today.getDate();
+}
+else {
+  minDate=today.getFullYear()-40+"-"+(today.getMonth()+1)+"-"+today.getDate();
+  maxDate=today.getFullYear()-18+"-"+(today.getMonth()+1)+"-"+today.getDate();
+}
+
 class Parent extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-          users: [],
           isLoggingIn: false,
           isValidated: false,
           firstName: "",
@@ -59,28 +69,42 @@ class Parent extends React.Component {
 
 
       setErrorMessages(errorMessages) {
-          console.log("Setting Error Message");
           this.setState(()=>({
             errorMessages
-          }));
+          }),()=>{
+          if((this.state.errorMessages.firstName==="" || this.state.firstName!=="")
+             && (this.state.errorMessages.lastName==="" || this.state.lastName!=="")
+             && (this.state.errorMessages.email==="" || this.state.email!=="")
+             && (this.state.errorMessages.pw==="" || this.state.pw!=="")
+             && (this.state.errorMessages.confirmPw==="" || this.state.confirmPw!=="")
+             && (this.state.errorMessages.DOB==="" || this.state.DOB!=="")
+             && (this.state.errorMessages.contactNumber==="" || this.state.contactNumber!=="")) {
+               this.setState(()=>({
+                 isValidated: true
+               }));
+             }
+            else {
+              this.setState(()=>({
+                isValidated: false
+              }));
+            }
+          });
       }
       
 
 
       validateIndividialInputs(tempErrorMessages,Regex,inputField) {
-        console.log("Validate Individual Inputs");
         if(!Regex.test(this.state[inputField])) {
           this.setErrorMessages(tempErrorMessages);
         }
         else {
-          console.log("Else of Individual Inputs is running");
           tempErrorMessages[inputField]="";
           this.setErrorMessages(tempErrorMessages);
         }
       }
 
 
-
+      
 
 
       validateForm(inputField) {
@@ -120,6 +144,7 @@ class Parent extends React.Component {
               this.validateIndividialInputs(tempErrorMessages,lastNameRegex,inputField);
             break;
             case "email":
+              console.log("Email case running");
               var emailRegex=/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
               if(this.state[inputField].length===0) {
                 tempErrorMessages[inputField]="Email Field Cannot be empty";
@@ -195,7 +220,6 @@ class Parent extends React.Component {
                 this.setState(()=>({
                   errorMessages: tempErrorMessages
                 }));
-                
               } 
               else {
                 tempErrorMessages[inputField]="";
@@ -206,7 +230,6 @@ class Parent extends React.Component {
             break;
             case "contactNumber":
                var isContactNumberValid;
-               console.log("Contact Number type: ",typeof this.state[inputField],", Length: ",this.state[inputField].length);
                if(this.state[inputField].length===0) {
                  tempErrorMessages[inputField]="Contact Number cannot be empty";
                  isContactNumberValid=false;
@@ -242,24 +265,14 @@ class Parent extends React.Component {
             default:
             break;
           }
-          if(   this.state.errorMessages.firstName===""
-             && this.state.errorMessages.lastName===""
-             && this.state.errorMessages.email===""
-             && this.state.errorMessages.pw===""
-             && this.state.errorMessages.confirmPw===""
-             && this.state.errorMessages.DOB===""
-             && this.state.errorMessages.contactNumber==="") {
-               this.setState(()=>({
-                 isValidated: true
-               }));
-             }
+          
       }
 
       handleChange(event) {
+            console.log("handleChange running");
             this.setState({
                 [event.target.name]: event.target.value
             },()=>{
-              console.log(this.state[event.target.name]);
               if(!this.state.isLoggingIn) {
                 this.validateForm(event.target.name);
               }
@@ -271,17 +284,20 @@ class Parent extends React.Component {
       handleSignUp(event) {
         event.preventDefault();
         var isAlreadyRegistered;
+        Object.keys(this.state.errorMessages).forEach(key=>{
+          this.validateForm(key);
+        });
         if(this.state.isValidated) {
           if(localStorage.users!==undefined) {
             let existing_users_data=JSON.parse(localStorage.users);
-            isAlreadyRegistered=existing_users_data.some(user=> user.email===this.state.email)
+            isAlreadyRegistered=existing_users_data.some(user=> user.email===this.state.email);
           }
           if(isAlreadyRegistered) {
             alert("This email Address is already Registered with us.");
             return;
           }
           let user={
-            userID: userId++,
+            userID: JSON.parse(localStorage.users).length,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
@@ -289,17 +305,16 @@ class Parent extends React.Component {
             DOB: this.state.DOB,
             contactNumber: this.state.contactNumber
           }
-          let tempusers=JSON.parse(JSON.stringify(this.state.users));
+          let tempusers=JSON.parse(localStorage.users);
           tempusers.push(user);
-          this.setState(()=> ({
-            users: tempusers
-          }),()=>{
-            localStorage.setItem("users",JSON.stringify(this.state.users));
+            localStorage.setItem("users",JSON.stringify(tempusers));
             alert("Signed Up successfully. You can now Log in.");
+            console.log(JSON.parse(localStorage.users));
             this.setState(()=>({
               isLoggingIn: true
-            }));
-          });
+            }),()=>{
+              document.querySelector(".formContainer").classList.add("loginForm");
+            });
         }
         else {
           alert("Sorry! You can't sign up because form is not validated.");
@@ -347,6 +362,8 @@ class Parent extends React.Component {
             handleChange={this.handleChange} 
             handleSubmit={this.handleSignUp} 
             errorMessages={this.state.errorMessages}
+            minDate={minDate}
+            maxDate={maxDate}
             />}
         </div>
         )
