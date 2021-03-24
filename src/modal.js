@@ -1,11 +1,13 @@
 import React from "react";
 import './modal.css';
+
 class Modal extends React.Component {
     render() {
         return (
             <div className="modalWrapper" style={{
                 opacity: this.props.view ? "1" : "0",
-                display: this.props.view ? "flex" : "none"
+                display: this.props.view ? "flex" : "none",
+                transform: this.props.view ? "translateY(0vh)": "translateY(-100vh)"
             }}>
                 <div className="modalHeader">
                     Add New Contact
