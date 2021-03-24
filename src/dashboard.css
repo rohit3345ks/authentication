@@ -57,30 +57,31 @@
 
 .dashboard {
     display: flex;
-    transition: all 3s ease-in-out;
 }
 
 
 
-.logOut {
+.logOut,.addUser {
     background: none;
     border: none;
     outline: none;
 }
-.logOut>img {
+.logOut>img,.addUser>img {
     width: 18px;
     height: 22px;
     padding-top: 3px;
 }
-
+.addUser>img {
+    height: 26px;
+}
 
 .backDrop {
-    background: rgba(63,61,61,0.25);
+    background: rgba(63,61,61,0.32);
     height: 100vh;
     width: 100vw;
     position: absolute;
     top: 0;
     left: 0;
-    transition: all 3s ease-in-out;
     pointer-events: none;
+    user-select: none;
 }

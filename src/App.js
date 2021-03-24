@@ -282,6 +282,7 @@ handleSignUp(event) {
            isValidated: true
          }),()=>{
            console.log("True: ",this.state.isValidated);
+           console.log(this.props.history);
            if(localStorage.users!==undefined) {
             let existing_users_data=JSON.parse(localStorage.users);
             isAlreadyRegistered=existing_users_data.some(user=> user.email===this.state.email);
@@ -308,7 +309,6 @@ handleSignUp(event) {
             this.setState(()=>({
               isLoggingIn: true
             }),()=>{
-              // to reset form 
               this.props.history.push('/user/login');
             });
          });

@@ -9,21 +9,33 @@ class Modal extends React.Component {
                 display: this.props.view ? "flex" : "none",
                 transform: this.props.view ? "translateY(0vh)": "translateY(-100vh)"
             }}>
+
+
                 <div className="modalHeader">
                     Add New Contact
                     <button onClick={this.props.hide} id="closeModal"> Close </button>
                 </div>
+
+
                 <div className="modalBody">
-                    <form className="modalForm">
+                    <form className="modalForm" onSubmit={this.props.addContact} >
+                        
                         <label className="modalInput">
                             <span className="modalInputLabel"> Name: </span>
-                            <input type="text" placeholder="Enter Contact Name" /> 
+                            <input type="text" name="contactName" placeholder="Enter Contact Name" 
+                                onChange={this.props.handleChange}
+                                /> 
                         </label>
+
+
                         <label className="modalInput">
                             <span className="modalInputLabel"> Image URL: </span>
-                            <input type="text" placeholder="e.g. https://......." /> 
+                            <input type="text" name="contactImageURL" placeholder="e.g. https://url/..." 
+                                onChange={this.props.handleChange} /> 
                         </label>
+
                         <button className="modalFormSubmit"> Add User </button>
+
                     </form>
                 </div>
             </div>
