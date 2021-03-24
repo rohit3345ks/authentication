@@ -60,7 +60,8 @@ class App extends React.Component {
         confirmPw: "",
         DOB: "",
         contactNumber: ""
-      }
+      },
+      currentUser: {}
     }
     this.handleLogIn=this.handleLogIn.bind(this);
     this.handleLogOut=this.handleLogOut.bind(this);
@@ -356,12 +357,15 @@ handleFormForSignUp() {
       });
       if(isAuthenticated) {
         localStorage.setItem("currentUser",JSON.stringify(existing_users_data[currentUserIndex]));
+        
         console.log(`User Authentication: ${isAuthenticated?"Successful":"Unsuccessful"}`);  
-        this.setState({
-          isLoggedIn: true
+        this.setState(()=>({
+          isLoggedIn: true,
+          currentUser: existing_users_data[currentUserIndex]
+        }),()=>{
+          console.log("Currentuser: ",this.state.currentUser);
         });
-        document.querySelector(".application").classList.remove(".")
-        document.querySelector(".application").classList.add("dashboardWrapper");
+        
         this.props.history.push('/dashboard');
       }
       else {
@@ -371,7 +375,7 @@ handleFormForSignUp() {
 
   handleLogOut() {
     localStorage.setItem("currentUser","");
-
+    document.querySelector(".application").classList.remove("dashboardWrapper");
     this.setState(()=>({
       isLoggedIn: false
     }));
@@ -384,7 +388,10 @@ handleFormForSignUp() {
         {/* <Router> */}
           <Switch>
             <Route path='/dashboard'>
-              <Dashboard handleLogOut={this.handleLogOut} />
+              <Dashboard 
+              isLoggedIn={this.state.isLoggedIn} 
+              user={this.state.currentUser} 
+              handleLogOut={this.handleLogOut} />
             </Route>
             <Route path='/' exact>
               <Home />

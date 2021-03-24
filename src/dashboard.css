@@ -4,13 +4,81 @@
     box-sizing: border-box;
 }
 
+.dashboardWrapper {
+    width: 100vw;
+    height: 100vh;
+    background: none;
+    display: block;
+}
+
 .chatListWrapper {
-    width: 25%;
+    width: 30%;
     height: 100vh;
     background-color: lightgray;
 }
+.userDetail {
+    height: 13%;
+    width: 100%;
+    background-color: rgb(237,237,237);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.userWrapper {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.avatarWrapper {
+    width: 25%;
+    height: 40%;
+}
+.avatarWrapper > img {
+    width: 90%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.userWrapper .userTitle {
+    line-height: 100%;
+    width: 54%;
+    text-align: center;
+}
+
 .chatWrapper {
     width: 75%;
     height: 100vh;
-    background-image: url('');
+    background-image: url("./whatsappBackground.png");
+}
+
+.dashboard {
+    display: flex;
+}
+
+
+
+.logOut {
+    background: none;
+    border: none;
+    outline: none;
+}
+.logOut>img {
+    width: 18px;
+    height: 22px;
+    padding-top: 3px;
+}
+
+
+.backDrop {
+    background: rgba(63,61,61,0.25);
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    transition: all 3s;
+    
 }
