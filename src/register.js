@@ -34,7 +34,7 @@ class Register extends React.Component {
                     
                     <label className="inputContainer">
                         <span className="label">Email:  </span>
-                        <input autoComplete="off" placeholder="Email Address*" name="email" type="email" value={this.props.value} onChange={this.props.handleChange} />                     
+                        <input autoComplete="false" placeholder="Email Address*" name="email" type="email" value={this.props.value} onChange={this.props.handleChange} />                     
                     </label>
                     <span className="error">{this.props.errorMessages['email']}</span>
                     
@@ -63,7 +63,7 @@ class Register extends React.Component {
                     
                     <label className="inputContainer">
                         <span className="label">Avatar Image:  </span>
-                        <input id="inputFile" autoComplete="off" placeholder="Uplaod File" name="avatar" type="file" value={this.props.value} onChange={this.props.handleChange} />     
+                        <input id="inputFile" autoComplete="off" accept="image/*" placeholder="Uplaod File" name="avatar" type="file" value={this.props.value} onChange={this.props.handleChange} />     
                     </label>
                     <span className="error">{this.props.errorMessages['avatar']}</span>
 
