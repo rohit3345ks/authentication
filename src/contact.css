@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contact {
+    height: 15%;
+    width: 100%;
+    padding-left: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.contact:hover {
+    background-color: rgb(224, 224, 224);
+}
+.contactAvatarWrapper {
+    width: 15%;
+    height: 67%;
+}
+
+.contactAvatarWrapper>img {
+    width: 95%;
+    height: 95%;
+    border-radius: 50%;
+}
+
+
+.contactName {
+    width: 20vw;
+    text-align: left;
+}

@@ -52,6 +52,7 @@ class App extends React.Component {
       confirmPw: "",
       DOB: "",
       contactNumber: "",
+      avatarURL: "",
       errorMessages: {
         firstName: "",
         lastName: "",
@@ -298,6 +299,7 @@ handleSignUp(event) {
             email: this.state.email,
             pw: this.state.pw,
             DOB: this.state.DOB,
+            avatarURL: this.state.avatarURL,
             contactNumber: this.state.contactNumber
           }
           let tempusers=JSON.parse(localStorage.users);

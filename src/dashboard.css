@@ -11,13 +11,16 @@
     display: block;
 }
 
-.chatListWrapper {
+.contactListWrapper {
     width: 30%;
     height: 100vh;
-    background-color: lightgray;
+}
+
+.contactList {
+    height: 87vh;
 }
 .userDetail {
-    height: 13%;
+    height: 13vh;
     width: 100%;
     background-color: rgb(237,237,237);
     display: flex;
@@ -34,8 +37,9 @@
 }
 
 .avatarWrapper {
-    width: 25%;
-    height: 40%;
+    width: 27%;
+    min-width: 50px;
+    height: 65%;
 }
 .avatarWrapper > img {
     width: 90%;
@@ -85,3 +89,5 @@
     pointer-events: none;
     user-select: none;
 }
+
+
