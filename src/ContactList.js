@@ -1,6 +1,5 @@
-import Contact from './Contact'
+import Contact from './Contact';
 const ContactList=({contacts})=>{
-    console.log(contacts);
     return (
         contacts.map((contact,index)=>{
         return (

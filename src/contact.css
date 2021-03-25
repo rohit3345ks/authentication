@@ -18,6 +18,7 @@
 .contactAvatarWrapper {
     width: 15%;
     height: 67%;
+    min-width: 45px;
 }
 
 .contactAvatarWrapper>img {
@@ -28,6 +29,7 @@
 
 
 .contactName {
-    width: 20vw;
+    width: 21vw;
     text-align: left;
+    padding-left: 10px;
 }

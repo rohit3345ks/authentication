@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
             viewModal: false,
             viewProfile: false,
             tempContacts: {},
-            userTempContacts: JSON.parse(localStorage.contacts)[this.props.user.email]||[],
+            userTempContacts: [],
             currentUser: JSON.parse(localStorage.currentUser)
         }
         this.showModal=this.showModal.bind(this);
@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
     addContact(event) {
         let tempContacts=this.state.tempContacts;
         let userTempContacts=this.state.userTempContacts;
-        let currentUser=JSON.parse(localStorage.currentUser);
+        let currentUser=this.state.currentUser;
         event.preventDefault();
         let tempContact={
             contactName: this.state.contactName,
@@ -81,7 +81,7 @@ class Dashboard extends React.Component {
         var tempContacts;
         var userTempContacts;
         var tempContactsKeys;
-        var currentUser=this.props.user;
+        var currentUser=JSON.parse(localStorage.currentUser);
         if(localStorage.contacts===undefined) {
             localStorage.setItem("contacts",JSON.stringify({
                 [currentUser.email]: []
@@ -93,18 +93,20 @@ class Dashboard extends React.Component {
             tempContacts=JSON.parse(localStorage.contacts);
             tempContactsKeys=Object.keys(tempContacts);
             if(tempContactsKeys.includes(currentUser.email)) {
+
                 userTempContacts=tempContacts[currentUser.email];
             }
             else {
                 console.log("Contacts are there. but user is not in contacts list");
-                console.log("tempContacts: ",tempContacts);
+                console.log("currentUser.email: ",currentUser.email);
                 tempContacts[currentUser.email]=[];
                 userTempContacts=tempContacts[currentUser.email];
             }
         }
         this.setState(()=>({
             tempContacts,
-            userTempContacts
+            userTempContacts,
+            currentUser
         }));
     }
 
