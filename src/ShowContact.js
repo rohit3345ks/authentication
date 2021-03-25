@@ -25,10 +25,12 @@ class ShowContact extends React.Component {
                 <div className="inputIconWrapper">
                     <img src="/smileyIcon.svg" alt="Smiley" /> 
                 </div>
-            </div>
-            <div className="chatInputBoxWrapper">
                 <div className="inputIconWrapper">
-                    <img src="/smileyIcon.svg" alt="Smiley" /> 
+                    <img src="/attachment.svg" alt="Attachment" /> 
+                </div>
+                <input type="text" placeholder="Type your message..." />
+                <div className="inputIconWrapper">
+                    <img src="/send.svg" alt="Send" /> 
                 </div>
             </div>
         </div> 

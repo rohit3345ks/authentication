@@ -6,7 +6,7 @@ class Register extends React.Component {
     render() {
         return (
             <div className="formContainer">
-                <h2 className="title" id="heading">Login / SignUp </h2>
+                <h2 className="title" id="heading"> SignUp </h2>
                 <h3> Already have an account? 
                     <Link to="/user/login">
                         <button className="btn"> Log In </button>

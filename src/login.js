@@ -9,7 +9,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className="formContainer">
-                <h2 className="title" id="heading">Login / SignUp </h2>
+                <h2 className="title" id="heading"> Login </h2>
                 <h3>New User? 
                     <Link to="/user/register">
                         <button className="btn" onClick={this.props.backToSignUp}> Sign Up </button>
