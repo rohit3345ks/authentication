@@ -1,12 +1,15 @@
+import React from 'react';
 import Contact from './Contact';
-const ContactList=({contacts})=>{
+const ContactList=({contacts,selectContact})=>{
+
     return (
         contacts.map((contact,index)=>{
+            console.log(`Contact: ${contact.contactName}, Index: ${index}`);
         return (
-        <>
-            <Contact key={index} imgSrc={contact.contactImageURL} name={contact.contactName} />
+        <React.Fragment key={index}>
+            <Contact select={selectContact} index={index} imgSrc={contact.contactImageURL} name={contact.contactName} />
             <hr />
-        </>
+        </React.Fragment>
         )
     })
     )

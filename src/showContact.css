@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contactDetail {
+    justify-content: flex-start;
+}
+.chatHeader {
+    height: 13vh;
+    width: 100%;
+    background-color: rgb(237,237,237);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contactWrapper {
+    padding: 3px 12px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.contactAvatarWrapper {
+    width: 7%;
+    margin: 3px;
+}
+
+.chatInputBoxWrapper {
+    background-color: rgb(237,237,237);
+    height: 10vh;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    display: flex;
+    padding: 3px 0;
+    align-items: center;
+}
+
+.inputIconWrapper {
+    width: 5%;
+    height: 55%;
+}
+
+.inputIconWrapper > img {
+    width: 90%;
+    height: 90%;
+}

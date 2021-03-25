@@ -4,8 +4,8 @@ import Modal from './modal';
 import ContactList from './ContactList';
 import Nochat from './Nochat';
 import Profile from './Profile';
-
-
+import NoContact from './Nocontact';
+import ShowContact from './ShowContact';
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +16,8 @@ class Dashboard extends React.Component {
             viewProfile: false,
             tempContacts: {},
             userTempContacts: [],
-            currentUser: JSON.parse(localStorage.currentUser)
+            currentUser: JSON.parse(localStorage.currentUser),
+            selectedContact: null
         }
         this.showModal=this.showModal.bind(this);
         this.hideModal=this.hideModal.bind(this);
@@ -24,6 +25,7 @@ class Dashboard extends React.Component {
         this.addContact=this.addContact.bind(this);
         this.showProfile=this.showProfile.bind(this);
         this.hideProfile=this.hideProfile.bind(this);
+        this.handleContactSelection=this.handleContactSelection.bind(this);
     }
 
     showModal() {
@@ -71,11 +73,16 @@ class Dashboard extends React.Component {
             tempContacts,
             viewModal: false
         }));
-        console.log("After Pushing (userTempContacts): ",JSON.parse(localStorage.contacts));
     }
 
 
-    
+    handleContactSelection(index) {
+        console.log("handleContactSelection triggered");
+        this.setState({
+            selectedContact: this.state.userTempContacts[index]
+        });
+    }
+
     componentDidMount() {
         document.querySelector(".application").classList.add("dashboardWrapper");
         var tempContacts;
@@ -125,17 +132,10 @@ class Dashboard extends React.Component {
                         <button className="logOut" onClick={this.props.handleLogOut}> <img src="/logout.svg" alt="Log Out" /> </button>
                     </div>
                     <div className="contactList">
-                        {this.state.userTempContacts.length===0 ? <Nochat /> : <ContactList contacts={this.state.userTempContacts} /> }
+                        {this.state.userTempContacts.length===0 ? <Nochat /> : <ContactList contacts={this.state.userTempContacts} selectContact={this.handleContactSelection} /> }
                     </div>
                 </div>
-                <div className="chatWrapper">
-                    <div className="contactHeader">
-
-                    </div>
-                    <div className="chatInputBox">
-
-                    </div>
-                </div> 
+                {this.state.selectedContact===null ? <NoContact />: <ShowContact contact={this.state.selectedContact} />}
                 <div>
                 {this.state.viewModal ? <div className="backDrop" onClick={this.hideModal}></div> : null }
                     <Modal 

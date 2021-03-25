@@ -30,7 +30,7 @@ class Modal extends React.Component {
 
                         <label className="modalInput">
                             <span className="modalInputLabel"> Image URL: </span>
-                            <input type="text" name="contactImageURL" placeholder="e.g. https://url/..." 
+                            <input type="url" name="contactImageURL" placeholder="e.g. https://url/..." 
                                 onChange={this.props.handleChange} /> 
                         </label>
 
