@@ -14,7 +14,8 @@ var errorString={
   pw: "Weak Password",
   confirmPw: "Passwords Mismatch",
   DOB: "Please enter a Valid Date",
-  contactNumber: "Must contain 10 numbers"
+  contactNumber: "Must contain 10 numbers",
+  avatar: "Please choose Image Properly"
 }
 if(localStorage.users===undefined) localStorage.setItem("users",JSON.stringify([]));
 var initialErrors= {
@@ -24,7 +25,8 @@ var initialErrors= {
     pw: "",
     confirmPw: "",
     DOB: "",
-    contactNumber: ""
+    contactNumber: "",
+    avatar: ""
 }
 var today=new Date();
 var minDate;
@@ -52,7 +54,7 @@ class App extends React.Component {
       confirmPw: "",
       DOB: "",
       contactNumber: "",
-      avatarURL: "",
+      avatar: "",
       errorMessages: {
         firstName: "",
         lastName: "",
@@ -60,7 +62,8 @@ class App extends React.Component {
         pw: "",
         confirmPw: "",
         DOB: "",
-        contactNumber: ""
+        contactNumber: "",
+        avatar: ""
       },
       currentUser: {}
     }
@@ -218,6 +221,11 @@ validateForm(inputField) {
           }));
         }
       break;
+      case "avatar":
+        if(this.state.avatar==="") {
+          tempErrorMessages[inputField]="Please choose Image properly";
+        }
+      break;
       case "contactNumber":
          var isContactNumberValid;
          if(this.state[inputField].length===0) {
@@ -256,6 +264,32 @@ validateForm(inputField) {
 }
 
 handleChange(event) {
+      var tempErrorMessages=JSON.parse(JSON.stringify(this.state.errorMessages));  
+      if(event.target.name==="avatar") {
+        var image=event.target.files[0];
+        if(!(image.type.startsWith("image"))) {
+          
+          tempErrorMessages["avatar"]="Please choose an Image";
+          this.setState(()=>({
+            errorMessages: tempErrorMessages
+          }));
+        }
+        else {
+          tempErrorMessages["avatar"]="";
+          this.setState(()=>({
+            errorMessages: tempErrorMessages
+          }));
+        }
+        const reader=new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload=()=>{
+          image=reader.result;
+          this.setState(()=>({
+            avatar: image
+          }));
+        }
+      }
+      else {
       this.setState({
           [event.target.name]: event.target.value
       },()=>{
@@ -263,6 +297,7 @@ handleChange(event) {
           this.validateForm(event.target.name);
         }
       })
+    }
   }
 
 
@@ -278,12 +313,11 @@ handleSignUp(event) {
        && this.state.errorMessages.DOB==="" 
        && this.state.errorMessages.contactNumber==="") &&
        (this.state.firstName!=="" && this.state.lastName!=="" && this.state.email!=="" && this.state.pw!=="" 
-       && this.state.confirmPw!=="" && this.state.DOB!=="" && this.state.contactNumber!=="")) {
+       && this.state.confirmPw!=="" && this.state.DOB!=="" && this.state.contactNumber!=="" && this.state.avatar!=="")) {
          this.setState(()=>({
            isValidated: true
          }),()=>{
            console.log("True: ",this.state.isValidated);
-           console.log(this.props.history);
            if(localStorage.users!==undefined) {
             let existing_users_data=JSON.parse(localStorage.users);
             isAlreadyRegistered=existing_users_data.some(user=> user.email===this.state.email);
@@ -293,13 +327,13 @@ handleSignUp(event) {
             return;
           }
           let user={
-            userID: JSON.parse(localStorage.users).length,
+            userID: JSON.parse(localStorage.users).length || 0,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
             pw: this.state.pw,
             DOB: this.state.DOB,
-            avatarURL: this.state.avatarURL,
+            avatar: this.state.avatar,
             contactNumber: this.state.contactNumber
           }
           let tempusers=JSON.parse(localStorage.users);

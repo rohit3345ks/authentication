@@ -7,7 +7,7 @@ const ContactList=({contacts,selectContact})=>{
             console.log(`Contact: ${contact.contactName}, Index: ${index}`);
         return (
         <React.Fragment key={index}>
-            <Contact select={selectContact} index={index} imgSrc={contact.contactImageURL} name={contact.contactName} />
+            <Contact select={selectContact} index={index} imgSrc={contact.contactImage} name={contact.contactName} />
             <hr />
         </React.Fragment>
         )

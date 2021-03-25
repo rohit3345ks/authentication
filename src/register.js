@@ -62,10 +62,10 @@ class Register extends React.Component {
 
                     
                     <label className="inputContainer">
-                        <span className="label">Avatar URL:  </span>
-                        <input autoComplete="off" placeholder="e.g. https://url/..." name="avatarURL" type="url" value={this.props.value} onChange={this.props.handleChange} />     
+                        <span className="label">Avatar Image:  </span>
+                        <input id="inputFile" autoComplete="off" placeholder="Uplaod File" name="avatar" type="file" value={this.props.value} onChange={this.props.handleChange} />     
                     </label>
-
+                    <span className="error">{this.props.errorMessages['avatar']}</span>
 
 
                     <label className="inputContainer">

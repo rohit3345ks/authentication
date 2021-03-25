@@ -16,11 +16,14 @@
     height: 100vh;
     min-width: 250px;
     z-index: 0;
-    box-shadow: 3px 0 10px 1px rgba(214, 210, 210, 0.212);
+    box-shadow: 3px 0 10px 1px rgba(214, 210, 210, 0.281);
 }
 
 .contactList {
-    height: 87vh;
+    overflow-y: auto;
+    max-height: calc(100vh - 13%);
+    height: calc(100vh - 13%);
+    width: 100%;
 }
 .userDetail,.contactDetail {
     height: 13vh;

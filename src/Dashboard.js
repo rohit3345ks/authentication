@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
         super(props);
         this.state={
             contactName: "",
-            contactImageURL: "",
+            contactImage: "",
             viewModal: false,
             viewProfile: false,
             tempContacts: {},
@@ -52,9 +52,24 @@ class Dashboard extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
+        if(event.target.name==="contactImage") {
+            console.log(event.target.files[0]);
+            var image=event.target.files[0];
+            const reader=new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload=()=>{
+            image=reader.result;
+            this.setState(()=>({
+                    contactImage: image
+                }));
+            }
+        }
+        else {
+            this.setState({
+                [event.target.name]: event.target.value
+            });
+        }
+        
     }
     addContact(event) {
         let tempContacts=this.state.tempContacts;
@@ -63,7 +78,7 @@ class Dashboard extends React.Component {
         event.preventDefault();
         let tempContact={
             contactName: this.state.contactName,
-            contactImageURL: this.state.contactImageURL
+            contactImage: this.state.contactImage
         }
         userTempContacts.push(tempContact);
         tempContacts[currentUser.email]=userTempContacts;
@@ -119,19 +134,21 @@ class Dashboard extends React.Component {
 
 
     render() {
+        console.log(this.state.userTempContacts.length)
         return ( 
             <div className="dashboard">
                 <div className="contactListWrapper">
                     <div className="userDetail">
                         <div className="userWrapper">
                             <div className="avatarWrapper" onClick={this.showProfile} >
-                                <img src={this.state.currentUser.avatarURL} alt={this.state.currentUser.firstName} />
+                                <img src={this.state.currentUser.avatar} alt={this.state.currentUser.firstName} />
                             </div>
                         </div>
                         <button className="addUser" onClick={this.showModal} > <img src="/plus-circle-solid.svg" alt="Add User" /> </button>
                         <button className="logOut" onClick={this.props.handleLogOut}> <img src="/logout.svg" alt="Log Out" /> </button>
                     </div>
                     <div className="contactList">
+
                         {this.state.userTempContacts.length===0 ? <Nochat /> : <ContactList contacts={this.state.userTempContacts} selectContact={this.handleContactSelection} /> }
                     </div>
                 </div>

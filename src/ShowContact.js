@@ -11,7 +11,7 @@ class ShowContact extends React.Component {
             <div className="contactDetail">
                 <div className="contactWrapper">
                     <div className="contactAvatarWrapper">
-                        <img src={this.props.contact.contactImageURL} alt={this.props.contact.contactName} />
+                        <img src={this.props.contact.contactImage} alt={this.props.contact.contactName} />
                     </div>
                     <div className="contactName">
                         <h3>{this.props.contact.contactName}</h3>

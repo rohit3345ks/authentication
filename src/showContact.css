@@ -17,10 +17,11 @@
 }
 
 .contactWrapper {
-    padding: 3px 12px;
+    padding: 8px 12px;
     display: flex;
     align-items: center;
-    position: relative;
+    position: fixed;
+    top: 0;
 }
 
 .contactAvatarWrapper {
