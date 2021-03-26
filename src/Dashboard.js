@@ -26,6 +26,7 @@ class Dashboard extends React.Component {
         this.showProfile=this.showProfile.bind(this);
         this.hideProfile=this.hideProfile.bind(this);
         this.handleContactSelection=this.handleContactSelection.bind(this);
+        this.fetchApiContacts=this.fetchApiContacts.bind(this);
     }
 
     showModal() {
@@ -92,11 +93,33 @@ class Dashboard extends React.Component {
 
 
     handleContactSelection(index) {
-        console.log("handleContactSelection triggered");
         this.setState({
             selectedContact: this.state.userTempContacts[index]
         });
     }
+
+
+    handleContactDelete(index) {
+        let tempContacts=this.state.userTempContacts;
+        tempContacts.splice(index,1);
+        
+    }
+
+        fetchApiContacts=async ()=>{
+        let usersResponse=await fetch("https://jsonplaceholder.typicode.com/users");
+        let usersData=await usersResponse.json();
+        let imageApiResponse=await fetch("https://randomuser.me/api/?results=10");
+        let imageApiData=await imageApiResponse.json();
+        let ApiContacts=usersData.map((user,index)=>{
+            return {
+                contactName: user.name,
+                contactImage: imageApiData.results[index].picture.thumbnail
+            }
+        });
+        this.setState((state)=>({
+            userTempContacts: [...state.userTempContacts,...ApiContacts]
+        }));
+    }; 
 
     componentDidMount() {
         document.querySelector(".application").classList.add("dashboardWrapper");
@@ -119,12 +142,14 @@ class Dashboard extends React.Component {
                 userTempContacts=tempContacts[currentUser.email];
             }
             else {
-                console.log("Contacts are there. but user is not in contacts list");
-                console.log("currentUser.email: ",currentUser.email);
                 tempContacts[currentUser.email]=[];
                 userTempContacts=tempContacts[currentUser.email];
             }
         }
+          
+
+        this.fetchApiContacts();
+
         this.setState(()=>({
             tempContacts,
             userTempContacts,
@@ -134,7 +159,6 @@ class Dashboard extends React.Component {
 
 
     render() {
-        console.log(this.state.userTempContacts.length)
         return ( 
             <div className="dashboard">
                 <div className="contactListWrapper">
