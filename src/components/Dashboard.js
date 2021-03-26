@@ -1,5 +1,5 @@
 import React from 'react';
-import './dashboard.css';
+import '../css/dashboard.css';
 import Modal from './modal';
 import ContactList from './ContactList';
 import Nochat from './Nochat';

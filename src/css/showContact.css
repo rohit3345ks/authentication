@@ -65,11 +65,12 @@
     height: 75%;
     border: none;
     outline: none;
-    border-radius: 18px;
+    border-radius: 30px;
     background-color: white;
     color: grey;
     padding: 2px 10px 2px;
     margin-right: 10px;
+    font-size: 1.01em;
 }
 
 

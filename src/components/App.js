@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import './App.css';
+import '../css/App.css';
 import Dashboard from './Dashboard';
 import Home from './Home';
 import Register from './Register';
@@ -395,6 +394,7 @@ handleFormForSignUp() {
         localStorage.setItem("currentUser",JSON.stringify(existing_users_data[currentUserIndex]));
         
         console.log(`User Authentication: ${isAuthenticated?"Successful":"Unsuccessful"}`);  
+        console.log()
         this.setState(()=>({
           isLoggedIn: true,
           currentUser: existing_users_data[currentUserIndex]

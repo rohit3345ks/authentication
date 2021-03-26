@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../css/App.css';
 import {Link} from 'react-router-dom';
 class Register extends React.Component {
     
@@ -9,7 +9,7 @@ class Register extends React.Component {
                 <h2 className="title" id="heading"> SignUp </h2>
                 <h3> Already have an account? 
                     <Link to="/user/login">
-                        <button className="btn"> Log In </button>
+                        <button className="btn small"> Log In </button>
                     </Link>
                 </h3>
                 <form className="formBox signUpForm" onSubmit={this.props.handleSubmit}>

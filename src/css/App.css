@@ -73,8 +73,10 @@
   padding: 10px;
 }
 #inputFile {
-  padding: 1px;
+  padding: 2px;
 }
+
+
 .inputContainer input:focus {
   border: 2px solid black;
   background-color: white;
@@ -95,7 +97,11 @@
   padding: 5px 10px;
   border: none;
   outline: none;
-  margin: 5px;
+  margin: 5px 0;
+}
+
+.btn.small {
+  margin-left: 15px;
 }
 
 .signUp,.login {

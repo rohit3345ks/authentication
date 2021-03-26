@@ -1,5 +1,5 @@
 import React from "react";
-import './profile.css';
+import '../css/profile.css';
 
 class Profile extends React.Component {
     render() {

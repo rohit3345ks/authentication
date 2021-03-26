@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../css/App.css';
 import {Link} from 'react-router-dom';
 class Login extends React.Component {
     // constructor(props) {
@@ -12,7 +12,7 @@ class Login extends React.Component {
                 <h2 className="title" id="heading"> Login </h2>
                 <h3>New User? 
                     <Link to="/user/register">
-                        <button className="btn" onClick={this.props.backToSignUp}> Sign Up </button>
+                        <button className="btn small" onClick={this.props.backToSignUp}> Sign Up </button>
                     </Link>
                 </h3>
                 <form className="formBox loginForm" onSubmit={this.props.handleSubmit}>
