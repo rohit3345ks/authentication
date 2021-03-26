@@ -3,17 +3,16 @@ import './showContact.css';
 class ShowContact extends React.Component {
     
     render() {
-        console.log(this.props.contact);
         return (
         <div className="chatWrapper" style={{
             background: "url('/whatsappBackground.png')"
         }}>
             <div className="contactDetail">
                 <div className="contactWrapper">
-                    <div className="contactAvatarWrapper">
+                    <div className="PcontactAvatarWrapper">
                         <img src={this.props.contact.contactImage} alt={this.props.contact.contactName} />
                     </div>
-                    <div className="contactName">
+                    <div className="contactName selected">
                         <h3>{this.props.contact.contactName}</h3>
                     </div>
                 </div>

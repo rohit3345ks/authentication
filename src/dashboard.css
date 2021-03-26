@@ -13,6 +13,7 @@
 
 .contactListWrapper {
     width: 30%;
+    min-width: 150px;
     height: 100vh;
     min-width: 250px;
     z-index: 0;
@@ -21,11 +22,22 @@
 
 .contactList {
     overflow-y: auto;
+    overflow-x: auto;
     max-height: calc(100vh - 13%);
     height: calc(100vh - 13%);
     width: 100%;
     background-color: whitesmoke;
 }
+
+.contactList::-webkit-scrollbar {
+    display: none;
+  }
+  
+
+  .contactList {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+  }
 .userDetail,.contactDetail {
     height: 13vh;
     width: 100%;
@@ -71,16 +83,17 @@
 
 
 
-.logOut,.addUser {
+.dashbtn {
     background: none;
     border: none;
     outline: none;
 }
-.logOut>img,.addUser>img {
+.dashbtn>img {
     width: 18px;
     height: 22px;
     padding-top: 3px;
 }
+
 .addUser>img {
     height: 26px;
 }
@@ -88,14 +101,12 @@
 .backDrop {
     height: 100vh;
     width: 100vw;
-    background: rgba(0, 0, 0, 0.541);
+    background: rgba(0, 0, 0, 0.3);
     position: absolute;
     top: 0;
     left: 0;
     pointer-events: none;
     user-select: none;
-    filter: blur(2rem);
-    -webkit-filter: blur(2rem);
 }
 
 

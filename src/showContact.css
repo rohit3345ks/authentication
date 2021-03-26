@@ -22,12 +22,20 @@
     align-items: center;
     position: fixed;
     top: 0;
-    margin: 10px;
+    margin: 7px;
+    width: 50%;
 }
 
-.contactAvatarWrapper {
-    width: 7%;
+.PcontactAvatarWrapper {
+    width: 9%;
     margin: 3px;
+    
+}
+
+.PcontactAvatarWrapper > img {
+    width: 99%;
+    height: 99%;
+    border-radius: 50%;
 }
 
 .chatInputBoxWrapper {
@@ -62,4 +70,9 @@
     color: grey;
     padding: 2px 10px 2px;
     margin-right: 10px;
+}
+
+
+.contactName.selected {
+    width: 100%;
 }

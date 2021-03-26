@@ -27,6 +27,7 @@ class Dashboard extends React.Component {
         this.hideProfile=this.hideProfile.bind(this);
         this.handleContactSelection=this.handleContactSelection.bind(this);
         this.fetchApiContacts=this.fetchApiContacts.bind(this);
+        this.deleteContact=this.deleteContact.bind(this);
     }
 
     showModal() {
@@ -54,7 +55,6 @@ class Dashboard extends React.Component {
 
     handleChange(event) {
         if(event.target.name==="contactImage") {
-            console.log(event.target.files[0]);
             var image=event.target.files[0];
             const reader=new FileReader();
             reader.readAsDataURL(image);
@@ -72,6 +72,8 @@ class Dashboard extends React.Component {
         }
         
     }
+
+
     addContact(event) {
         let tempContacts=this.state.tempContacts;
         let userTempContacts=this.state.userTempContacts;
@@ -91,6 +93,24 @@ class Dashboard extends React.Component {
         }));
     }
 
+    deleteContact(event,index) {
+
+        console.log("DeleteContact is Triggered");
+        let tempContacts=this.state.tempContacts;
+        let userTempContacts=this.state.userTempContacts;
+        console.log("Before Deleting Contact: ",userTempContacts);
+        console.log("userTempContacts[index]: ",userTempContacts[index]);
+        userTempContacts.splice(index,1);
+        tempContacts[this.state.currentUser.email]=userTempContacts;
+        console.log("After Deleting Contact: ",userTempContacts);
+        
+        localStorage.setItem("contacts",JSON.stringify(tempContacts));
+        this.setState(()=>({
+            tempContacts,
+            userTempContacts
+        }));
+        event.stopPropagation();
+    }
 
     handleContactSelection(index) {
         this.setState({
@@ -99,11 +119,7 @@ class Dashboard extends React.Component {
     }
 
 
-    handleContactDelete(index) {
-        let tempContacts=this.state.userTempContacts;
-        tempContacts.splice(index,1);
-        
-    }
+
 
         fetchApiContacts=async ()=>{
         let usersResponse=await fetch("https://jsonplaceholder.typicode.com/users");
@@ -113,7 +129,7 @@ class Dashboard extends React.Component {
         let ApiContacts=usersData.map((user,index)=>{
             return {
                 contactName: user.name,
-                contactImage: imageApiData.results[index].picture.thumbnail
+                contactImage: imageApiData.results[index].picture.large
             }
         });
         this.setState((state)=>({
@@ -168,12 +184,15 @@ class Dashboard extends React.Component {
                                 <img src={this.state.currentUser.avatar} alt={this.state.currentUser.firstName} />
                             </div>
                         </div>
-                        <button className="addUser" onClick={this.showModal} > <img src="/plus-circle-solid.svg" alt="Add User" /> </button>
-                        <button className="logOut" onClick={this.props.handleLogOut}> <img src="/logout.svg" alt="Log Out" /> </button>
+                        <button className="dashbtn addUser" onClick={this.showModal} > <img src="/plus-circle-solid.svg" alt="Add User" /> </button>
+                        <button className="dashbtn logOut" onClick={this.props.handleLogOut}> <img src="/logout.svg" alt="Log Out" /> </button>
                     </div>
                     <div className="contactList">
 
-                        {this.state.userTempContacts.length===0 ? <Nochat /> : <ContactList contacts={this.state.userTempContacts} selectContact={this.handleContactSelection} /> }
+                        {this.state.userTempContacts.length===0 ? <Nochat /> : <ContactList 
+                                                                                contacts={this.state.userTempContacts} 
+                                                                                selectContact={this.handleContactSelection} 
+                                                                                deleteContact={this.deleteContact} /> }
                     </div>
                 </div>
                 {this.state.selectedContact===null ? <NoContact />: <ShowContact contact={this.state.selectedContact} />}

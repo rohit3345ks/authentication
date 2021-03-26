@@ -3,7 +3,6 @@ import './contact.css';
 
 class Contact extends React.Component {
     render() {
-        console.log(`this.props.select: ${this.props.select} this.props.index: ${this.props.index}`);
         return (
             <div className="contact" onClick={()=>this.props.select(this.props.index) } >
                 <div className="contactAvatarWrapper">
@@ -11,6 +10,9 @@ class Contact extends React.Component {
                 </div>
                 <div  className="contactName">
                     <h4>{this.props.name}</h4>
+                </div>
+                <div className="dashbtn" id="deletebtn" onClick={(event)=>this.props.delete(event,this.props.index)} >
+                    <img src="/delete.svg" alt="Delete Contact" />
                 </div>
             </div>
         );
