@@ -121,7 +121,7 @@ validateForm(inputField) {
         this.validateIndividialInputs(tempErrorMessages,firstNameRegex,inputField);
       break;
       case "lastName":
-        var lastNameRegex=/^[A-Za-z]{3,25}$/g;
+        var lastNameRegex=/^[A-Za-z]{2,25}$/g;
         if(this.state[inputField].length===0) {
           tempErrorMessages[inputField]="Last name cannot be empty";
         }
@@ -132,7 +132,7 @@ validateForm(inputField) {
           tempErrorMessages[inputField]="Digits are not allowed";
         }
         else { 
-          tempErrorMessages[inputField]="Between 3 to 25 characters";
+          tempErrorMessages[inputField]="Between 2 to 25 characters";
         }
         this.validateIndividialInputs(tempErrorMessages,lastNameRegex,inputField);
       break;
